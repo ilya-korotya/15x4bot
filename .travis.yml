@@ -10,6 +10,6 @@ script:
   - docker save -o ./bot.tar bot:latest
   - docker save -o ./bot-db.tar bot-db:latest
   # Send tar ro EC2 instaces
-  - scp -i "travis.pem" ./bot.tar ec2-user@ec2-35-180-69-65.eu-west-3.compute.amazonaws.com:~/bot.tar
-  - scp -i "travis.pem" ./bot-db.tar ec2-user@ec2-35-180-69-65.eu-west-3.compute.amazonaws.com:~/bot-db.tar
+  - yes | scp -i "travis.pem" ./bot.tar ec2-user@ec2-35-180-69-65.eu-west-3.compute.amazonaws.com:~/bot.tar
+  - yes | scp -i "travis.pem" ./bot-db.tar ec2-user@ec2-35-180-69-65.eu-west-3.compute.amazonaws.com:~/bot-db.tar
   # run script with deploy code
