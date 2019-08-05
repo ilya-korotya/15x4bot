@@ -14,7 +14,7 @@ script:
   - docker save -o ./bot.tar bot:latest
   - docker save -o ./bot-db.tar bot-db:latest
   # Send tar ro EC2 instaces
-  - yes | scp -o StrictHostKeyChecking=no -i "travis.pem" ./bot.tar $SERVER_USER@$SERVER_DNS:~/bot.tar
-  - yes | scp -o StrictHostKeyChecking=no -i "travis.pem" ./bot-db.tar $SERVER_USER@$SERVER_DNS:~/bot-db.tar
+  - scp -o StrictHostKeyChecking=no -o PubkeyAuthentication=no -i "travis.pem" ./bot.tar $SERVER_USER@$SERVER_DNS:~/bot.tar
+  - scp -o StrictHostKeyChecking=no -o PubkeyAuthentication=no -i "travis.pem" ./bot-db.tar $SERVER_USER@$SERVER_DNS:~/bot-db.tar
   # run script with deploy code
  
