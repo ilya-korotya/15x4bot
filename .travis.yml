@@ -5,6 +5,7 @@ env:
 
 script:
   - echo "$RSA_KEY" > travis.pem
+  - chmod 400 travis.pem
   # Build images with bot
   - docker build . -t bot:latest
   # Build container with database
