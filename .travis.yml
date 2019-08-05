@@ -8,6 +8,7 @@ before_install:
   - cat travis.pem
 
 script:
+  - chmod 400 travis.pem
   - docker build . -t bot:latest
   # Build container with database
   - docker build ./postgresql -t bot-db:latest
