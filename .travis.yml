@@ -2,9 +2,14 @@ language: minimal
 
 script:
   - echo "$RSA_KEY" > travis.pem
-  - make startup
+  # Build images with bot
+  - docker build . -t bot:latest
+  # Build container with database
+  - docker build ./postgresql -t bot-db:latest
+  # Save images to tar
   - docker save -o ./bot.tar bot:latest
   - docker save -o ./bot-db.tar bot-db:latest
+  # Send tar ro EC2 instaces
   - scp ./bot.tar ec2-user@ec2-35-180-69-65.eu-west-3.compute.amazonaws.com/
   - scp ./bot-db.tar ec2-user@ec2-35-180-69-65.eu-west-3.compute.amazonaws.com/
   # run script with deploy code
