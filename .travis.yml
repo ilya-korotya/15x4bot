@@ -18,5 +18,10 @@ script:
   # Send tar ro EC2 instaces
   - scp -o StrictHostKeyChecking=no -i "travis.pem" ./bot.tar $SERVER_USER@$SERVER_DNS:~/bot.tar
   - scp -o StrictHostKeyChecking=no -i "travis.pem" ./bot-db.tar $SERVER_USER@$SERVER_DNS:~/bot-db.tar
-  # run script with deploy code
- 
+  # Copy env files
+  - scp -o StrictHostKeyChecking=no -i "travis.pem" ./.env $SERVER_USER@$SERVER_DNS:~/.env
+  - scp -o StrictHostKeyChecking=no -i "travis.pem" ./postgresql/.env $SERVER_USER@$SERVER_DNS:~/postgresql/.env
+  # Copy docker compose
+  - scp -o StrictHostKeyChecking=no -i "travis.pem" ./docker-compose.yml $SERVER_USER@$SERVER_DNS:~/postgresql/docker-compose.yml
+  # Run containers
+  - ssh -i "travis.pem" -t "docker-compose up -d --build --force-recreate"
