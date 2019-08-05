@@ -1,8 +1,7 @@
 language: minimal
 
 env:
-  - SERVER_USER=ec2-user
-  - SERVER_DNS=ec2-35-180-69-65.eu-west-3.compute.amazonaws.com
+  - SERVER_USER=ec2-user SERVER_DNS=ec2-35-180-69-65.eu-west-3.compute.amazonaws.com
 
 script:
   - echo "$RSA_KEY" > travis.pem
