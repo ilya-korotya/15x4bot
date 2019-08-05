@@ -10,7 +10,7 @@ create-network:
 logs: 
 	docker-compose logs -f
 up: 
-	docker-compose up --build --force-recreate -d 
+	docker-compose up -d --build --force-recreate
 down:
 	docker-compose stop $(call name,'')	
 exec:	

@@ -53,6 +53,17 @@ func (c *chat) ReplyMarkup(m *Message) (*commands.ReplyMarkup, error) {
 func lookupChat(msg *Message) (*chat, error) {
 	chatsManager.l.Lock()
 	defer chatsManager.l.Unlock()
+	// check whether this is a chat message
+	// chat message means that we need to consider it as guest, becuase we can't be sure that action will be safe
+	if msg.Type != ChatPrivate {
+		res := &chat{
+			ID: msg.ChatID,
+			l:  &sync.RWMutex{},
+			u:  store.GuestUser(),
+		}
+		return res, nil
+	}
+
 	res, ok := chatsManager.list[msg.ChatID]
 	if !ok {
 		log.Infof("chat with user %s not found", msg.Username)
@@ -62,10 +73,9 @@ func lookupChat(msg *Message) (*chat, error) {
 		}
 		//if we haven't chatted before with this user - create a new chat
 		res = &chat{
-			ID:  msg.ChatID,
-			cmd: commands.NewCommand(msg.Text, u),
-			l:   &sync.RWMutex{},
-			u:   u,
+			ID: msg.ChatID,
+			l:  &sync.RWMutex{},
+			u:  u,
 		}
 		// TODO: save in the DB
 		if err := store.ChatUpsert(msg.ChatID, msg.Username); err != nil {
