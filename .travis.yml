@@ -32,4 +32,4 @@ script:
   # Run containers
   - ssh -i "travis.pem" -t $SERVER_USER@$SERVER_DNS "docker-compose up --force-recreate -d"
   # Run migrations
-  - ssh -i "travis.pem" -t $SERVER_USER@$SERVER_DNS "docker run -v ./postgresql/migrations:/migrations --network=15x4  migrate/migrate -path=/migrations/ -database postgres://bot:@bot-db:5432/bot?sslmode=disable up"
+  - ssh -i "travis.pem" -t $SERVER_USER@$SERVER_DNS "docker run -v $PWD/postgresql/migrations:/migrations --network=15x4  migrate/migrate -path=/migrations/ -database postgres://bot:@bot-db:5432/bot?sslmode=disable up"
