@@ -20,8 +20,10 @@ script:
   - scp -o StrictHostKeyChecking=no -i "travis.pem" ./bot-db.tar $SERVER_USER@$SERVER_DNS:~/bot-db.tar
   # Copy env files
   - scp -o StrictHostKeyChecking=no -i "travis.pem" ./.env $SERVER_USER@$SERVER_DNS:~/.env
-  - ssh -i "travis.pem" -t $SERVER_USER@$SERVER_DNS "mkdir -p ~/postgresql/"
+  - ssh -i "travis.pem" -t $SERVER_USER@$SERVER_DNS "mkdir -p ~/postgresql/migrations"
   - scp -o StrictHostKeyChecking=no -i "travis.pem" ./postgresql/.env $SERVER_USER@$SERVER_DNS:~/postgresql/.env
+  # Copy migrations
+  - scp -o StrictHostKeyChecking=no -i "travis.pem" -r ./postgresql/migrations $SERVER_USER@$SERVER_DNS:~/postgresql/migrations
   # Copy docker compose
   - scp -o StrictHostKeyChecking=no -i "travis.pem" ./docker-compose.yml $SERVER_USER@$SERVER_DNS:~/docker-compose.yml
   # Upload images
@@ -29,3 +31,5 @@ script:
   - ssh -i "travis.pem" -t $SERVER_USER@$SERVER_DNS "docker load -i bot-db.tar"
   # Run containers
   - ssh -i "travis.pem" -t $SERVER_USER@$SERVER_DNS "docker-compose up --force-recreate -d"
+  # Run migrations
+  - ssh -i "travis.pem" -t $SERVER_USER@$SERVER_DNS "docker run -v ./postgresql/migrations:/migrations --network=15x4  migrate/migrate -path=/migrations/ -database postgres://bot:@bot-db:5432/bot?sslmode=disable up"
