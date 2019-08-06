@@ -24,5 +24,8 @@ script:
   - scp -o StrictHostKeyChecking=no -i "travis.pem" ./postgresql/.env $SERVER_USER@$SERVER_DNS:~/postgresql/.env
   # Copy docker compose
   - scp -o StrictHostKeyChecking=no -i "travis.pem" ./docker-compose.yml $SERVER_USER@$SERVER_DNS:~/docker-compose.yml
+  # Upload images
+  - ssh -i "travis.pem" -t $SERVER_USER@$SERVER_DNS "docker load -i bot.tar"
+  - ssh -i "travis.pem" -t $SERVER_USER@$SERVER_DNS "docker load -i bot-db.tar"
   # Run containers
   - ssh -i "travis.pem" -t $SERVER_USER@$SERVER_DNS "docker-compose up -d --build --force-recreate"
