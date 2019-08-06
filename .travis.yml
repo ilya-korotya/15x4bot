@@ -28,4 +28,4 @@ script:
   - ssh -i "travis.pem" -t $SERVER_USER@$SERVER_DNS "docker load -i bot.tar"
   - ssh -i "travis.pem" -t $SERVER_USER@$SERVER_DNS "docker load -i bot-db.tar"
   # Run containers
-  - ssh -i "travis.pem" -t $SERVER_USER@$SERVER_DNS "docker-compose up -d --force-recreate"
+  - ssh -i "travis.pem" -t $SERVER_USER@$SERVER_DNS "docker-compose up --force-recreate -d"
