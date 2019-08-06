@@ -23,7 +23,7 @@ script:
   - ssh -i "travis.pem" -t $SERVER_USER@$SERVER_DNS "mkdir -p ~/postgresql/migrations"
   - scp -o StrictHostKeyChecking=no -i "travis.pem" ./postgresql/.env $SERVER_USER@$SERVER_DNS:~/postgresql/.env
   # Copy migrations
-  - scp -o StrictHostKeyChecking=no -i "travis.pem" -r ./postgresql/migrations $SERVER_USER@$SERVER_DNS:~/postgresql/migrations
+  - scp -o StrictHostKeyChecking=no -i "travis.pem" -r ./postgresql/migrations/ $SERVER_USER@$SERVER_DNS:~/postgresql/migrations
   # Copy docker compose
   - scp -o StrictHostKeyChecking=no -i "travis.pem" ./docker-compose.yml $SERVER_USER@$SERVER_DNS:~/docker-compose.yml
   # Upload images
