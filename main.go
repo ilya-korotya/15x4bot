@@ -36,10 +36,8 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-
 	// start listening updates
 	go bot.ListenUpdates()
-
 	// start background job manager
 	go scheduler.Run(bot)
 	// wating for signals (SIGTERM - correct exit from application)
