@@ -5,10 +5,11 @@ env:
 
 before_install:
   - openssl aes-256-cbc -K $encrypted_2c430460807a_key -iv $encrypted_2c430460807a_iv -in travis.pem.enc -out travis.pem -d
-  - cat travis.pem
 
 script:
+  - cat $TRAVIS_COMMIT_RANGE
   - chmod 400 travis.pem
+  # Build container with application
   - docker build . -t bot:latest
   # Build container with database
   - docker build ./postgresql -t bot-db:latest
