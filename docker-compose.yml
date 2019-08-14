@@ -9,7 +9,6 @@ services:
     - .env
     depends_on: 
       - postgresql
-    restart: on-failure
   postgresql: 
     image: bot-db:latest     
     build:
